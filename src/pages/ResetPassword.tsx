@@ -165,7 +165,7 @@ export default function ResetPassword() {
               )}
             </div>
             <Button type="submit" className="w-full" disabled={loading || password !== confirmPassword}>
-              Update Password
+              Reset Password
             </Button>
           </form>
         </CardContent>
