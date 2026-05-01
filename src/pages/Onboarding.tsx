@@ -27,9 +27,14 @@ const COMMON_INDUSTRIES = [
 
 export default function Onboarding() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const handleSignOut = async () => {
+    await signOut();
+    navigate("/login");
+  };
 
   // Step 1 fields
   const [firstName, setFirstName] = useState("");
