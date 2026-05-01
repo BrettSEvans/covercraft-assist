@@ -247,16 +247,25 @@ export default function Login() {
                     <Lock className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 ${passwordMismatch ? "text-destructive" : "text-muted-foreground"}`} />
                     <Input
                       id="signup-confirm-password"
-                      type="password"
+                      type={showConfirmPassword ? "text" : "password"}
                       placeholder="••••••••"
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className={`pl-9 ${passwordMismatch ? "border-destructive focus-visible:ring-destructive" : ""}`}
+                      className={`pl-9 pr-9 ${passwordMismatch ? "border-destructive focus-visible:ring-destructive" : ""}`}
                       aria-invalid={passwordMismatch}
                       aria-describedby={passwordMismatch ? "signup-confirm-password-error" : undefined}
                       required
                       minLength={6}
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPassword((v) => !v)}
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
+                      aria-pressed={showConfirmPassword}
+                      className={`absolute right-3 top-1/2 -translate-y-1/2 hover:text-foreground focus:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded ${passwordMismatch ? "text-destructive" : "text-muted-foreground"}`}
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
                   </div>
                   {passwordMismatch && (
                     <p id="signup-confirm-password-error" className="text-sm font-medium text-destructive">
