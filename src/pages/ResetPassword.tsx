@@ -20,18 +20,45 @@ export default function ResetPassword() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
-    // Listen for password recovery event from the magic link
+    let cancelled = false;
+
+    // 1. Listen for the PASSWORD_RECOVERY event (fires after the SDK processes the link)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event === "PASSWORD_RECOVERY") {
+      if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
         setIsRecovery(true);
       }
     });
-    // Also check hash for type=recovery
-    const hash = window.location.hash;
-    if (hash.includes("type=recovery")) {
-      setIsRecovery(true);
-    }
-    return () => subscription.unsubscribe();
+
+    (async () => {
+      // 2. Hash-fragment style: #access_token=...&type=recovery
+      if (window.location.hash.includes("type=recovery")) {
+        if (!cancelled) setIsRecovery(true);
+      }
+
+      // 3. PKCE style: ?code=... — exchange for a session
+      const url = new URL(window.location.href);
+      const code = url.searchParams.get("code");
+      if (code) {
+        const { error } = await supabase.auth.exchangeCodeForSession(code);
+        if (!error && !cancelled) {
+          setIsRecovery(true);
+          // Clean the code out of the URL so refreshes don't re-exchange
+          url.searchParams.delete("code");
+          window.history.replaceState({}, "", url.pathname + url.search + url.hash);
+        }
+      }
+
+      // 4. If a session already exists (SDK auto-processed the link), treat as recovery
+      const { data } = await supabase.auth.getSession();
+      if (data.session && !cancelled) {
+        setIsRecovery(true);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const handleResetPassword = async (e: React.FormEvent) => {
@@ -86,25 +113,8 @@ export default function ResetPassword() {
     );
   }
 
-  if (!isRecovery) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md border-border text-center">
-          <CardHeader className="space-y-2">
-            <div className="flex justify-center mb-2">
-              <BrandLogo iconSize="2.4em" />
-            </div>
-            <CardTitle className="text-xl">Password Reset</CardTitle>
-            <CardDescription>Waiting for recovery link verification...</CardDescription>
-            <CardDescription className="text-xs">If you arrived here directly, please use the reset link from your email.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="outline" onClick={() => navigate("/login")}>Back to Sign In</Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Note: we always show the reset form. If the recovery session isn't valid,
+  // updateUser() will return an error which we surface via toast.
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -113,7 +123,7 @@ export default function ResetPassword() {
           <div className="flex justify-center mb-2">
             <BrandLogo iconSize="2.4em" />
           </div>
-          <CardTitle className="text-xl font-bold text-foreground">Set New Password</CardTitle>
+          <CardTitle className="text-xl font-bold text-foreground">Reset Password</CardTitle>
           <CardDescription>Enter and confirm your new password</CardDescription>
         </CardHeader>
         <CardContent>
@@ -155,7 +165,7 @@ export default function ResetPassword() {
               )}
             </div>
             <Button type="submit" className="w-full" disabled={loading || password !== confirmPassword}>
-              Update Password
+              Reset Password
             </Button>
           </form>
         </CardContent>
