@@ -15,8 +15,11 @@ export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
+
+  const passwordMismatch = confirmPassword.length > 0 && password !== confirmPassword;
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,6 +51,10 @@ export default function Login() {
 
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
     setLoading(true);
     const { error } = await supabase.auth.signUp({
       email,
