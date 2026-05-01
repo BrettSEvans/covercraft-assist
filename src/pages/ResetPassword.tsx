@@ -113,25 +113,8 @@ export default function ResetPassword() {
     );
   }
 
-  if (!isRecovery) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-md border-border text-center">
-          <CardHeader className="space-y-2">
-            <div className="flex justify-center mb-2">
-              <BrandLogo iconSize="2.4em" />
-            </div>
-            <CardTitle className="text-xl">Password Reset</CardTitle>
-            <CardDescription>Waiting for recovery link verification...</CardDescription>
-            <CardDescription className="text-xs">If you arrived here directly, please use the reset link from your email.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button variant="outline" onClick={() => navigate("/login")}>Back to Sign In</Button>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
+  // Note: we always show the reset form. If the recovery session isn't valid,
+  // updateUser() will return an error which we surface via toast.
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
