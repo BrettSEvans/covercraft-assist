@@ -115,7 +115,15 @@ export default function Onboarding() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-8">
-      <Card className="w-full max-w-lg border-border">
+      <Card className="w-full max-w-lg border-border relative">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleSignOut}
+          className="absolute top-3 right-3 text-xs text-muted-foreground hover:text-foreground"
+        >
+          Sign out
+        </Button>
         <CardHeader className="text-center space-y-3">
           <div className="flex justify-center mb-1">
             <BrandLogo iconSize="2em" />
