@@ -48,6 +48,9 @@ export default function Onboarding() {
   const [skills, setSkills] = useState<string[]>([]);
   const [skillInput, setSkillInput] = useState("");
   const [industries, setIndustries] = useState<string[]>([]);
+  const [extractedSkills, setExtractedSkills] = useState<string[]>([]);
+  const [extractingSkills, setExtractingSkills] = useState(false);
+  const [extractedFromText, setExtractedFromText] = useState<string>("");
 
   // Step 4 fields (Story 1.3: master cover letter)
   const [masterCoverLetter, setMasterCoverLetter] = useState("");
