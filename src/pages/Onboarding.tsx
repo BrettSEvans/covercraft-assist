@@ -242,7 +242,7 @@ export default function Onboarding() {
                   </p>
                 )}
                 <div className="flex flex-wrap gap-1.5">
-                  {COMMON_SKILLS.map((s) => (
+                  {(extractedSkills.length > 0 ? extractedSkills : COMMON_SKILLS).map((s) => (
                     <Badge
                       key={s}
                       variant={skills.includes(s) ? "default" : "outline"}
