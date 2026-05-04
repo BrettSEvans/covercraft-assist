@@ -238,10 +238,9 @@ const Applications = () => {
           <Card>
             <CardContent className="py-12 text-center">
               <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-medium mb-2">No applications yet</h3>
-              <p className="text-muted-foreground mb-4">Create your first job application to get started.</p>
+              <h3 className="text-lg font-medium mb-4">No Applications</h3>
               <Button onClick={() => navigate("/applications/new")}>
-                <Plus className="mr-2 h-4 w-4" /> New Application
+                <Plus className="mr-2 h-4 w-4" /> Create application
               </Button>
             </CardContent>
           </Card>
