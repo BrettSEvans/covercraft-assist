@@ -127,7 +127,7 @@ export default function Onboarding() {
       .from("profiles")
       .update({ onboarding_completed_at: new Date().toISOString() })
       .eq("id", user.id);
-    navigate("/?tour=1");
+    navigate("/applications");
   };
 
   const stepIcons = [
