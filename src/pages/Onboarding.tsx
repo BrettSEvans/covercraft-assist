@@ -307,8 +307,8 @@ export default function Onboarding() {
             </div>
             <div>
               {step < totalSteps ? (
-                <Button size="sm" onClick={() => setStep(step + 1)} className="gap-1">
-                  {step === 4 && !masterCoverLetter ? "Skip" : "Next"} <ArrowRight className="h-3.5 w-3.5" />
+                <Button size="sm" onClick={handleNext} disabled={extractingSkills} className="gap-1">
+                  {extractingSkills ? "Extracting…" : step === 4 && !masterCoverLetter ? "Skip" : "Next"} <ArrowRight className="h-3.5 w-3.5" />
                 </Button>
               ) : (
                 <Button size="sm" onClick={handleComplete} disabled={loading} className="gap-1">
