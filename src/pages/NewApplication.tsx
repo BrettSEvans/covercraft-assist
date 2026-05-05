@@ -39,6 +39,13 @@ const NewApplication = () => {
   const [applicationId, setApplicationId] = useState<string | null>(null);
   const [pipelineError, setPipelineError] = useState<string | undefined>();
 
+  // Generation selections
+  const [genResume, setGenResume] = useState(true);
+  const [genCoverLetter, setGenCoverLetter] = useState(true);
+  const [genJdAnalysis, setGenJdAnalysis] = useState(false);
+  const [genMaterials, setGenMaterials] = useState(false);
+  const [genDashboard, setGenDashboard] = useState(false);
+
   const isValidUrl = (str: string) => {
     try {
       const u = new URL(str.startsWith('http') ? str : `https://${str}`);
