@@ -230,7 +230,10 @@ const NewApplication = () => {
 
               <Button
                 onClick={handleAnalyze}
-                disabled={useManualInput ? !manualJobDescription.trim() : !jobUrl.trim()}
+                disabled={
+                  (useManualInput ? !manualJobDescription.trim() : !jobUrl.trim()) ||
+                  (genDashboard && !isValidUrl(companyUrl))
+                }
                 className="w-full"
                 size="lg"
               >
