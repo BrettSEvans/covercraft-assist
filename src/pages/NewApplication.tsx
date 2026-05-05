@@ -211,7 +211,7 @@ const NewApplication = () => {
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
-                      <Globe className="h-5 w-5" /> Company Website URL (optional)
+                      <Globe className="h-5 w-5" /> Company Website URL
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
