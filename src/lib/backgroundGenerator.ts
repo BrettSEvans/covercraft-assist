@@ -212,7 +212,7 @@ class BackgroundGenerationManager {
       await saveJobApplication({ id: appId, job_url: jobUrl, generation_status: "analyzing" } as any);
 
       // Launch all independent tasks concurrently
-      const brandingPromise = (companyUrl?.trim())
+      const brandingPromise = (sel.dashboard && companyUrl?.trim())
         ? scrapeCompanyBranding(companyUrl).catch((e) => { console.warn("Branding scrape failed:", e); return null; })
         : Promise.resolve(null);
 
@@ -221,7 +221,8 @@ class BackgroundGenerationManager {
         jobDescription: markdown,
       }).catch((e) => { console.warn("Analysis failed:", e); return null; });
 
-      const jdIntelligencePromise = (markdown && markdown.length >= 50)
+      const needsJdIntel = sel.jdAnalysis || sel.materials || sel.dashboard;
+      const jdIntelligencePromise = (needsJdIntel && markdown && markdown.length >= 50)
         ? parseJobDescription({ jobDescriptionMarkdown: markdown, companyName: "" }).catch((e) => { console.warn("JD intelligence parse failed:", e); return null; })
         : Promise.resolve(null);
 
