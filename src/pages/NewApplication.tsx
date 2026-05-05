@@ -101,9 +101,16 @@ const NewApplication = () => {
     try {
       const appId = await backgroundGenerator.startFullGeneration({
         jobUrl: jobUrl || "manual-input",
-        companyUrl: companyUrl || undefined,
+        companyUrl: genDashboard ? (companyUrl || undefined) : undefined,
         jobDescription: useManualInput ? manualJobDescription.trim() : undefined,
         useManualInput,
+        selections: {
+          resume: genResume,
+          coverLetter: genCoverLetter,
+          jdAnalysis: genJdAnalysis,
+          materials: genMaterials,
+          dashboard: genDashboard,
+        },
       });
       setApplicationId(appId);
     } catch (err: any) {
