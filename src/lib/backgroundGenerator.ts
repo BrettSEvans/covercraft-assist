@@ -130,13 +130,22 @@ class BackgroundGenerationManager {
     companyUrl,
     jobDescription,
     useManualInput,
+    selections,
   }: {
     applicationId?: string;
     jobUrl: string;
     companyUrl?: string;
     jobDescription?: string;
     useManualInput?: boolean;
+    selections?: { resume?: boolean; coverLetter?: boolean; jdAnalysis?: boolean; materials?: boolean; dashboard?: boolean };
   }): Promise<string> {
+    const sel = {
+      resume: selections?.resume ?? true,
+      coverLetter: selections?.coverLetter ?? true,
+      jdAnalysis: selections?.jdAnalysis ?? false,
+      materials: selections?.materials ?? false,
+      dashboard: selections?.dashboard ?? false,
+    };
     let appId = applicationId;
     if (!appId) {
       const saved = await saveJobApplication({
