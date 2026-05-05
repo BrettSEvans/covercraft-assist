@@ -412,6 +412,7 @@ class BackgroundGenerationManager {
         try {
           await streamTailoredLetter({
             jobDescription: markdown,
+            candidateName,
             onDelta: (text) => { coverLetter += text; },
             onDone: () => {},
           });
