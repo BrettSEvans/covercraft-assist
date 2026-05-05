@@ -307,45 +307,54 @@ class BackgroundGenerationManager {
       } as any);
 
       // ========== PHASE 3: Generate resume (foreground phase end) ==========
-      this.updateJob(appId, { status: "resume", progress: "Generating tailored resume..." });
+      if (sel.resume) {
+        this.updateJob(appId, { status: "resume", progress: "Generating tailored resume..." });
 
-      if (resumeText && markdown) {
-        const [atsResult, clarityResult] = await Promise.allSettled([
-          generateOptimizedResume({
-            jobDescription: markdown,
-            resumeText,
-            missingKeywords: [],
-            companyName,
-            jobTitle,
-          }),
-          generateClarityResume({
-            jobDescription: markdown,
-            resumeText,
-            companyName,
-            jobTitle,
-          }),
-        ]);
+        if (resumeText && markdown) {
+          const [atsResult, clarityResult] = await Promise.allSettled([
+            generateOptimizedResume({
+              jobDescription: markdown,
+              resumeText,
+              missingKeywords: [],
+              companyName,
+              jobTitle,
+            }),
+            generateClarityResume({
+              jobDescription: markdown,
+              resumeText,
+              companyName,
+              jobTitle,
+            }),
+          ]);
 
-        const savePayload: any = {
-          id: appId,
-          job_url: jobUrl,
-          generation_status: "resume-complete",
-          status: "resume-complete",
-        };
+          const savePayload: any = {
+            id: appId,
+            job_url: jobUrl,
+            generation_status: "resume-complete",
+            status: "resume-complete",
+          };
 
-        if (atsResult.status === "fulfilled") {
-          savePayload.resume_html = atsResult.value.resume_html;
+          if (atsResult.status === "fulfilled") {
+            savePayload.resume_html = atsResult.value.resume_html;
+          } else {
+            console.warn("ATS resume generation failed:", atsResult.reason);
+          }
+
+          if (clarityResult.status === "fulfilled") {
+            savePayload.clarity_resume_html = clarityResult.value.resume_html;
+          } else {
+            console.warn("Clarity resume generation failed:", clarityResult.reason);
+          }
+
+          await saveJobApplication(savePayload);
         } else {
-          console.warn("ATS resume generation failed:", atsResult.reason);
+          await saveJobApplication({
+            id: appId,
+            job_url: jobUrl,
+            generation_status: "resume-complete",
+            status: "resume-complete",
+          } as any);
         }
-
-        if (clarityResult.status === "fulfilled") {
-          savePayload.clarity_resume_html = clarityResult.value.resume_html;
-        } else {
-          console.warn("Clarity resume generation failed:", clarityResult.reason);
-        }
-
-        await saveJobApplication(savePayload);
       } else {
         await saveJobApplication({
           id: appId,
