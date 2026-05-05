@@ -184,22 +184,50 @@ const NewApplication = () => {
 
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Globe className="h-5 w-5" /> Company Website URL (optional)
-                  </CardTitle>
+                  <CardTitle className="text-base">Generate</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <Input
-                    type="url"
-                    placeholder="https://example.com"
-                    value={companyUrl}
-                    onChange={(e) => setCompanyUrl(e.target.value)}
-                  />
-                  <p className="text-xs text-muted-foreground mt-2">
-                    Used to scrape branding (fonts, colors, design) for the dashboard
-                  </p>
+                  <div className="flex flex-wrap gap-x-6 gap-y-3">
+                    {[
+                      { id: "gen-resume", label: "Resume", checked: genResume, set: setGenResume },
+                      { id: "gen-cover", label: "Cover Letter", checked: genCoverLetter, set: setGenCoverLetter },
+                      { id: "gen-jd", label: "JD Analysis", checked: genJdAnalysis, set: setGenJdAnalysis },
+                      { id: "gen-materials", label: "Materials", checked: genMaterials, set: setGenMaterials },
+                      { id: "gen-dashboard", label: "Dashboard", checked: genDashboard, set: setGenDashboard },
+                    ].map((opt) => (
+                      <label key={opt.id} htmlFor={opt.id} className="flex items-center gap-2 cursor-pointer">
+                        <Checkbox
+                          id={opt.id}
+                          checked={opt.checked}
+                          onCheckedChange={(v) => opt.set(!!v)}
+                        />
+                        <span className="text-sm">{opt.label}</span>
+                      </label>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
+
+              {genDashboard && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Globe className="h-5 w-5" /> Company Website URL (optional)
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <Input
+                      type="url"
+                      placeholder="https://example.com"
+                      value={companyUrl}
+                      onChange={(e) => setCompanyUrl(e.target.value)}
+                    />
+                    <p className="text-xs text-muted-foreground mt-2">
+                      Used to scrape branding (fonts, colors, design) for the dashboard
+                    </p>
+                  </CardContent>
+                </Card>
+              )}
 
               <Button
                 onClick={handleAnalyze}
