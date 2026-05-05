@@ -26,7 +26,9 @@ serve(async (req) => {
   }
 
   try {
-    const { jobDescription, customInstructions, cultureSignals, seniority } = await req.json();
+    const { jobDescription, customInstructions, cultureSignals, seniority, candidateName } = await req.json();
+    const signatureName = (typeof candidateName === 'string' && candidateName.trim()) ? candidateName.trim() : 'Brett Evans';
+    const baseLetter = BASE_COVER_LETTER.replace(/Brett Evans/g, signatureName);
 
     if (!jobDescription) {
       return new Response(
@@ -65,19 +67,20 @@ serve(async (req) => {
       else toneInjection = '\nTONE: Vision-oriented, "aligned with your mission to..."';
     }
 
-    const systemPrompt = `You are an expert cover letter writer. You will be given Brett Evans' base cover letter and a job description. Your task is to lightly tailor the cover letter to match the job.
+    const systemPrompt = `You are an expert cover letter writer. You will be given ${signatureName}'s base cover letter and a job description. Your task is to lightly tailor the cover letter to match the job.
 
 CRITICAL Rules:
 - You MUST replace EVERY instance of "Gusto" with the actual company name from the job posting. The base letter uses "Gusto" as a placeholder — it is NOT the target company unless the job posting is literally for Gusto.
 - You MUST replace the role title ("Head of GTM Process & Tooling") with the actual role title from the job posting.
 - You MUST replace the greeting ("To the Gusto GTM Team") with an appropriate greeting for the target company and team.
+- The signature MUST be exactly "${signatureName}" — do not change, abbreviate, or substitute the candidate's name.
 - Adjust 2-3 talking points to align with the job's key requirements
-- Keep Brett's core narrative, tone, and experience intact
+- Keep the candidate's core narrative, tone, and experience intact
 - Maintain the same general structure and length
 - Keep the letter professional but enthusiastic
 - Do NOT invent new experiences — only reframe existing ones
 - Output ONLY the tailored cover letter text, no explanations or metadata${cultureInjection}${toneInjection}
-${customInstructions ? `\nAdditional instructions from Brett: ${customInstructions}` : ''}`;
+${customInstructions ? `\nAdditional instructions from the candidate: ${customInstructions}` : ''}`;
 
     const response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
       method: 'POST',
@@ -91,7 +94,7 @@ ${customInstructions ? `\nAdditional instructions from Brett: ${customInstructio
           { role: 'system', content: systemPrompt },
           {
             role: 'user',
-            content: `Here is my base cover letter:\n\n${BASE_COVER_LETTER}\n\n---\n\nHere is the job posting I'm applying to:\n\n${jobDescription}`
+            content: `Here is my base cover letter:\n\n${baseLetter}\n\n---\n\nHere is the job posting I'm applying to:\n\n${jobDescription}`
           },
         ],
         stream: true,

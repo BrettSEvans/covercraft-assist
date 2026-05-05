@@ -28,11 +28,13 @@ export async function scrapeJob(url: string): Promise<{ markdown: string; title:
 export async function streamTailoredLetter({
   jobDescription,
   customInstructions,
+  candidateName,
   onDelta,
   onDone,
 }: {
   jobDescription: string;
   customInstructions?: string;
+  candidateName?: string;
   onDelta: (text: string) => void;
   onDone: () => void;
 }) {
@@ -42,7 +44,7 @@ export async function streamTailoredLetter({
     {
       method: 'POST',
       headers,
-      body: JSON.stringify({ jobDescription, customInstructions }),
+      body: JSON.stringify({ jobDescription, customInstructions, candidateName }),
     }
   );
 
