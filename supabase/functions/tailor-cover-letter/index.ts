@@ -26,7 +26,9 @@ serve(async (req) => {
   }
 
   try {
-    const { jobDescription, customInstructions, cultureSignals, seniority } = await req.json();
+    const { jobDescription, customInstructions, cultureSignals, seniority, candidateName } = await req.json();
+    const signatureName = (typeof candidateName === 'string' && candidateName.trim()) ? candidateName.trim() : 'Brett Evans';
+    const baseLetter = BASE_COVER_LETTER.replace(/Brett Evans/g, signatureName);
 
     if (!jobDescription) {
       return new Response(
