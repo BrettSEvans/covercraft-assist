@@ -178,12 +178,19 @@ class BackgroundGenerationManager {
     return appId;
   }
 
+    // Run in background (don't await at call site)
+    this.runPipeline(appId, jobUrl, companyUrl, jobDescription, useManualInput, sel);
+
+    return appId;
+  }
+
   private async runPipeline(
     appId: string,
     jobUrl: string,
     companyUrl?: string,
     manualDescription?: string,
-    useManualInput?: boolean
+    useManualInput?: boolean,
+    sel: { resume: boolean; coverLetter: boolean; jdAnalysis: boolean; materials: boolean; dashboard: boolean } = { resume: true, coverLetter: true, jdAnalysis: false, materials: false, dashboard: false }
   ) {
     try {
       // ========== PHASE 1: Scrape job (sequential — everything else depends on markdown) ==========
