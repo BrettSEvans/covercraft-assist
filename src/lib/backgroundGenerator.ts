@@ -427,7 +427,7 @@ class BackgroundGenerationManager {
       }
 
       // 4c. Generate dynamic materials from JD-recommended assets
-      const recommendedAssets = jdIntelligence?.recommended_assets || [];
+      const recommendedAssets = sel.materials ? (jdIntelligence?.recommended_assets || []) : [];
       if (recommendedAssets.length > 0) {
         this.updateJob(appId, { status: "generating-materials", progress: `Generating materials (0/${recommendedAssets.length})...` });
 
