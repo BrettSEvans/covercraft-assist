@@ -30,7 +30,15 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, signOut } = useAuth();
-  const [step, setStep] = useState(1);
+  const [step, setStepRaw] = useState(1);
+  const [maxStep, setMaxStep] = useState(1);
+  const setStep = useCallback((s: number | ((prev: number) => number)) => {
+    setStepRaw((prev) => {
+      const next = typeof s === "function" ? (s as (p: number) => number)(prev) : s;
+      setMaxStep((m) => Math.max(m, next));
+      return next;
+    });
+  }, []);
   const [loading, setLoading] = useState(false);
 
   const handleSignOut = async () => {
