@@ -56,6 +56,7 @@ function AuthenticatedApp() {
   const tour = useTourState();
 
   useInactivityLogout();
+  useTheme();
 
   if (loading || (user && profileLoading)) {
     return <div className="flex items-center justify-center h-screen"><Skeleton className="w-64 h-8" /></div>;
