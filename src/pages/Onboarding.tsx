@@ -186,7 +186,7 @@ export default function Onboarding() {
                   className={`flex items-center justify-center w-8 h-8 rounded-full text-xs font-medium transition-colors ${
                     s === step
                       ? "bg-primary text-primary-foreground"
-                      : s < step
+                      : s <= maxStep
                       ? "bg-primary/20 text-primary hover:bg-primary/30"
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   } ${isNavigable ? "cursor-pointer" : ""}`}
