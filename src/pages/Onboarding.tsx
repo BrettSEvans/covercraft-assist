@@ -176,7 +176,7 @@ export default function Onboarding() {
           <CardDescription>Step {step} of {totalSteps}</CardDescription>
           <div className="flex items-center justify-center pt-1">
             {[1, 2, 3, 4, 5].map((s, idx) => {
-              const isNavigable = s <= step;
+              const isNavigable = s <= maxStep;
               return (
               <div key={s} className="flex items-center">
                 <button
