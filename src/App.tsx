@@ -26,6 +26,7 @@ import AiChat from "./components/AiChat";
 import { HelpDrawer } from "./components/HelpDrawer";
 import { TutorialTour, useTourState } from "./components/TutorialTour";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTheme } from "@/hooks/useTheme";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +56,7 @@ function AuthenticatedApp() {
   const tour = useTourState();
 
   useInactivityLogout();
+  useTheme();
 
   if (loading || (user && profileLoading)) {
     return <div className="flex items-center justify-center h-screen"><Skeleton className="w-64 h-8" /></div>;
