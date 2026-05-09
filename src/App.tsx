@@ -26,6 +26,7 @@ import AiChat from "./components/AiChat";
 import { HelpDrawer } from "./components/HelpDrawer";
 import { TutorialTour, useTourState } from "./components/TutorialTour";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTheme } from "@/hooks/useTheme";
 
 const queryClient = new QueryClient();
 
