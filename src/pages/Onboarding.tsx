@@ -198,7 +198,7 @@ export default function Onboarding() {
                 {idx < 4 && (
                   <div
                     className={`h-0.5 w-6 mx-1 transition-colors ${
-                      s < step ? "bg-primary/40" : "bg-muted"
+                      s < maxStep ? "bg-primary/40" : "bg-muted"
                     }`}
                     aria-hidden="true"
                   />
