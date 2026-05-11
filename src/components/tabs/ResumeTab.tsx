@@ -33,6 +33,7 @@ import {
   Target,
   ChevronDown,
   Send,
+  ArrowUp,
 } from "lucide-react";
 import {
   DropdownMenu,
