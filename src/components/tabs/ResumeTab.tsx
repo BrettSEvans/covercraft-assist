@@ -432,17 +432,22 @@ function ResumeVariantContent({
     );
   }
 
+  const toolbarTarget = typeof document !== "undefined" ? document.getElementById("resume-variant-actions") : null;
+  const toolbar = (
+    <ResumeVariantToolbar
+      isRegenerating={isRegenerating}
+      isRefining={isRefining}
+      askPrompt={askPrompt}
+      setAskPrompt={setAskPrompt}
+      onAskForChanges={handleAskForChanges}
+      onEdit={() => { setEditingResume(true); setPreviewResumeHtml(null); }}
+      onRegenerate={() => openRegenDialog(variant)}
+    />
+  );
+
   return (
     <div className="space-y-4">
-      <ResumeVariantToolbar
-        isRegenerating={isRegenerating}
-        isRefining={isRefining}
-        askPrompt={askPrompt}
-        setAskPrompt={setAskPrompt}
-        onAskForChanges={handleAskForChanges}
-        onEdit={() => { setEditingResume(true); setPreviewResumeHtml(null); }}
-        onRegenerate={() => openRegenDialog(variant)}
-      />
+      {toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar}
 
       {editingResume ? (
         <InlineHtmlEditor
