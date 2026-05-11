@@ -359,6 +359,8 @@ function ResumeVariantContent({
     if (!askPrompt.trim() || !html) return;
     setIsRefining(true);
     const promptText = askPrompt.trim();
+    setChatHistory((h) => [...h, { role: "user", content: promptText }]);
+    setChatVisible(true);
     try {
       // Save current as revision
       try {
