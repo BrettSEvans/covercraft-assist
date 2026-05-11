@@ -192,7 +192,7 @@ export function CoverLetterTab({
         );
         return portalTarget ? createPortal(downloadBtn, portalTarget) : downloadBtn;
       })()}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 w-full">
         {coverLetter && (
           <Button variant="outline" size="sm" onClick={() => handleCopy(displayContent, "Cover letter")}>
             <Copy className="mr-2 h-4 w-4" /> Copy
