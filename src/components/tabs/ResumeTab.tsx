@@ -227,6 +227,9 @@ function ResumeVariantToolbar({
   onAskForChanges,
   onEdit,
   onRegenerate,
+  chatVisible,
+  onToggleChat,
+  hasChatHistory,
 }: {
   isRegenerating: boolean;
   isRefining: boolean;
@@ -235,12 +238,27 @@ function ResumeVariantToolbar({
   onAskForChanges: () => void;
   onEdit: () => void;
   onRegenerate: () => void;
+  chatVisible: boolean;
+  onToggleChat: () => void;
+  hasChatHistory: boolean;
 }) {
   const disabled = isRefining || isRegenerating;
   return (
     <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 w-full">
       <div />
-      <div className="flex items-center gap-2 w-[400px] max-w-full justify-self-center">
+      <div className="flex items-center gap-2 w-[440px] max-w-full justify-self-center">
+        <Button
+          type="button"
+          variant="ghost"
+          size="icon"
+          onClick={onToggleChat}
+          disabled={!hasChatHistory}
+          aria-label={chatVisible ? "Hide chat history" : "Show chat history"}
+          title={hasChatHistory ? (chatVisible ? "Hide chat history" : "Show chat history") : "No chat history yet"}
+          className="h-9 w-9 shrink-0"
+        >
+          {chatVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+        </Button>
         <Input
           placeholder="Ask for changes (e.g. shorten the summary)"
           value={askPrompt}
