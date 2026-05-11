@@ -213,19 +213,52 @@ function ResumeDownloadButton({
 
 function ResumeVariantToolbar({
   isRegenerating,
+  isRefining,
+  askPrompt,
+  setAskPrompt,
+  onAskForChanges,
   onEdit,
   onRegenerate,
 }: {
   isRegenerating: boolean;
+  isRefining: boolean;
+  askPrompt: string;
+  setAskPrompt: (v: string) => void;
+  onAskForChanges: () => void;
   onEdit: () => void;
   onRegenerate: () => void;
 }) {
+  const disabled = isRefining || isRegenerating;
   return (
-    <div className="flex flex-wrap gap-2">
-      <Button variant="outline" size="sm" onClick={onEdit}>
+    <div className="flex flex-wrap items-center gap-2">
+      <div className="flex items-center gap-2 flex-1 min-w-[240px] max-w-xl">
+        <Input
+          placeholder="Ask for changes (e.g. shorten the summary)"
+          value={askPrompt}
+          onChange={(e) => setAskPrompt(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey && askPrompt.trim() && !disabled) {
+              e.preventDefault();
+              onAskForChanges();
+            }
+          }}
+          disabled={disabled}
+          aria-label="Ask for changes"
+          className="h-9"
+        />
+        <Button
+          size="sm"
+          onClick={onAskForChanges}
+          disabled={disabled || !askPrompt.trim()}
+        >
+          {isRefining ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+          {isRefining ? "Applying…" : "Send"}
+        </Button>
+      </div>
+      <Button variant="outline" size="sm" onClick={onEdit} disabled={disabled}>
         <Edit3 className="mr-2 h-4 w-4" /> Edit
       </Button>
-      <Button variant="outline" size="sm" disabled={isRegenerating} onClick={onRegenerate}>
+      <Button variant="outline" size="sm" disabled={disabled} onClick={onRegenerate}>
         {isRegenerating ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
         ) : (
