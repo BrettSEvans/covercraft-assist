@@ -98,7 +98,6 @@ const ApplicationDetail = () => {
           </div>
         </div>
 
-        {(() => null)()}
         <Tabs defaultValue="resume" className="space-y-4">
           <TabsList className="w-full justify-start flex-wrap">
             <TabsTrigger value="resume">Resume</TabsTrigger>
