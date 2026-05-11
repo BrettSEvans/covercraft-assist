@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 import VersionDownloadAlert from "@/components/VersionDownloadAlert";
 import { Button } from "@/components/ui/button";
@@ -707,7 +708,8 @@ export function ResumeTab({
             const activeHtml = activeVariant === "ats" ? atsHtml : clarityHtml;
             if (!activeHtml) return null;
             const displayHtml = previewResumeHtml || activeHtml;
-            return (
+            const portalTarget = typeof document !== "undefined" ? document.getElementById("resume-tab-actions") : null;
+            const downloadBtn = (
               <ResumeDownloadButton
                 variant={activeVariant}
                 variantLabel={activeVariant === "ats" ? "ATS Play" : "Clarity"}
@@ -718,6 +720,7 @@ export function ResumeTab({
                 toast={toast}
               />
             );
+            return portalTarget ? createPortal(downloadBtn, portalTarget) : downloadBtn;
           })()}
         </div>
 
