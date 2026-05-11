@@ -589,9 +589,6 @@ export function ResumeTab({
         </TabsContent>
 
         <TabsContent value="clarity" className="space-y-4 mt-4">
-          <div className="rounded-lg border border-border bg-muted/30 p-3 text-sm text-muted-foreground">
-            <strong>Clarity</strong> — Human-first strategy optimized for recruiter readability. Highlights impact, outcomes, and career narrative so a hiring manager can understand your value in 5 seconds.
-          </div>
           <ResumeVariantContent
             variant="clarity"
             variantLabel="Clarity"
