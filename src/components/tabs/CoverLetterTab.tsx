@@ -192,52 +192,56 @@ export function CoverLetterTab({
         );
         return portalTarget ? createPortal(downloadBtn, portalTarget) : downloadBtn;
       })()}
-      <div className="flex flex-wrap items-center gap-2 w-full">
-        {coverLetter && (
-          <Button variant="outline" size="sm" onClick={() => handleCopy(displayContent, "Cover letter")}>
-            <Copy className="mr-2 h-4 w-4" /> Copy
-          </Button>
-        )}
-        {coverLetter && (
-          <div className="flex items-center gap-2 w-[440px] max-w-full">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon"
-              onClick={() => setClChatOpen(!clChatOpen)}
-              disabled={clChatHistory.length === 0}
-              aria-label={clChatOpen ? "Hide chat history" : "Show chat history"}
-              title={clChatHistory.length > 0 ? (clChatOpen ? "Hide chat history" : "Show chat history") : "No chat history yet"}
-              className="h-9 w-9 shrink-0 -mr-1.5"
-            >
-              {clChatOpen ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 w-full">
+        <div className="justify-self-start">
+          {coverLetter && (
+            <Button variant="outline" size="sm" onClick={() => handleCopy(displayContent, "Cover letter")}>
+              <Copy className="mr-2 h-4 w-4" /> Copy
             </Button>
-            <Input
-              placeholder="Ask for changes (e.g. make the opening more compelling)"
-              value={clChatInput}
-              onChange={(e) => setClChatInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" && !e.shiftKey && clChatInput.trim() && !clRefining && !isRegenerating) {
-                  e.preventDefault();
-                  handleCoverLetterVibeEdit();
-                }
-              }}
-              disabled={clRefining || isRegenerating}
-              aria-label="Ask for changes"
-              className="h-9"
-            />
-            <Button
-              size="icon"
-              onClick={handleCoverLetterVibeEdit}
-              disabled={clRefining || isRegenerating || !clChatInput.trim()}
-              aria-label={clRefining ? "Applying changes" : "Send"}
-              className="h-9 w-9 shrink-0 rounded-full shadow-md disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none"
-            >
-              {clRefining ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
-            </Button>
-          </div>
-        )}
-        <div className="flex items-center gap-2 ml-auto">
+          )}
+        </div>
+        <div className="justify-self-center">
+          {coverLetter && (
+            <div className="flex items-center gap-2 w-[440px] max-w-full">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                onClick={() => setClChatOpen(!clChatOpen)}
+                disabled={clChatHistory.length === 0}
+                aria-label={clChatOpen ? "Hide chat history" : "Show chat history"}
+                title={clChatHistory.length > 0 ? (clChatOpen ? "Hide chat history" : "Show chat history") : "No chat history yet"}
+                className="h-9 w-9 shrink-0 -mr-1.5"
+              >
+                {clChatOpen ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+              </Button>
+              <Input
+                placeholder="Ask for changes (e.g. make the opening more compelling)"
+                value={clChatInput}
+                onChange={(e) => setClChatInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey && clChatInput.trim() && !clRefining && !isRegenerating) {
+                    e.preventDefault();
+                    handleCoverLetterVibeEdit();
+                  }
+                }}
+                disabled={clRefining || isRegenerating}
+                aria-label="Ask for changes"
+                className="h-9"
+              />
+              <Button
+                size="icon"
+                onClick={handleCoverLetterVibeEdit}
+                disabled={clRefining || isRegenerating || !clChatInput.trim()}
+                aria-label={clRefining ? "Applying changes" : "Send"}
+                className="h-9 w-9 shrink-0 rounded-full shadow-md disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none"
+              >
+                {clRefining ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
+              </Button>
+            </div>
+          )}
+        </div>
+        <div className="flex items-center gap-2 justify-self-end">
           {!editingCoverLetter && (
             <Button variant="outline" size="sm" onClick={handleStartEdit} disabled={!coverLetter}>
               <Edit3 className="mr-2 h-4 w-4" /> Edit
