@@ -463,7 +463,15 @@ function ResumeVariantContent({
     );
   }
 
-  const toolbarTarget = typeof document !== "undefined" ? document.getElementById("resume-variant-actions") : null;
+  const [toolbarTarget, setToolbarTarget] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    const find = () => setToolbarTarget(document.getElementById("resume-variant-actions"));
+    find();
+    if (!document.getElementById("resume-variant-actions")) {
+      const raf = requestAnimationFrame(find);
+      return () => cancelAnimationFrame(raf);
+    }
+  }, [variant]);
   const toolbar = (
     <ResumeVariantToolbar
       isRegenerating={isRegenerating}
@@ -481,7 +489,7 @@ function ResumeVariantContent({
 
   return (
     <div className="space-y-4">
-      {toolbarTarget ? createPortal(toolbar, toolbarTarget) : toolbar}
+      {toolbarTarget && createPortal(toolbar, toolbarTarget)}
 
       {chatVisible && chatHistory.length > 0 && (
         <Card>
