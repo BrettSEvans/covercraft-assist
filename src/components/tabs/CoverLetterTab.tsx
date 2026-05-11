@@ -192,15 +192,16 @@ export function CoverLetterTab({
         );
         return portalTarget ? createPortal(downloadBtn, portalTarget) : downloadBtn;
       })()}
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2 w-full">
-        <div className="justify-self-start">
+      <div className="flex items-center gap-2 w-full">
+        <div>
           {coverLetter && (
             <Button variant="outline" size="sm" onClick={() => handleCopy(displayContent, "Cover letter")}>
               <Copy className="mr-2 h-4 w-4" /> Copy
             </Button>
           )}
         </div>
-        <div className="justify-self-center">
+        <div className="flex-1" />
+        <div>
           {coverLetter && (
             <div className="flex items-center gap-2 w-[440px] max-w-full">
               <Button
@@ -241,7 +242,8 @@ export function CoverLetterTab({
             </div>
           )}
         </div>
-        <div className="flex items-center gap-2 justify-self-end">
+        <div className="flex-1" />
+        <div className="flex items-center gap-2">
           {!editingCoverLetter && (
             <Button variant="outline" size="sm" onClick={handleStartEdit} disabled={!coverLetter}>
               <Edit3 className="mr-2 h-4 w-4" /> Edit
