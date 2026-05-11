@@ -120,6 +120,7 @@ export default function Profile() {
     if (error) {
       toast.error("Failed to save: " + error.message);
     } else {
+      setBaseline(currentSnapshot);
       toast.success("Profile saved!");
     }
   };
