@@ -234,8 +234,9 @@ function ResumeVariantToolbar({
 }) {
   const disabled = isRefining || isRegenerating;
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      <div className="flex items-center gap-2 w-[400px] max-w-full">
+    <div className="flex flex-wrap items-center gap-2 w-full">
+      <div className="flex items-center gap-2 w-[400px] max-w-full mx-auto">
+
         <Input
           placeholder="Ask for changes (e.g. shorten the summary)"
           value={askPrompt}
