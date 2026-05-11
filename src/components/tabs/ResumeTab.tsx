@@ -257,7 +257,7 @@ function ResumeVariantToolbar({
           title={hasChatHistory ? (chatVisible ? "Hide chat history" : "Show chat history") : "No chat history yet"}
           className="h-9 w-9 shrink-0"
         >
-          {chatVisible ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+          {chatVisible ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
         </Button>
         <Input
           placeholder="Ask for changes (e.g. shorten the summary)"
