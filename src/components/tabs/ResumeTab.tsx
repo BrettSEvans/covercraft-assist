@@ -32,6 +32,7 @@ import {
   Sparkles,
   Target,
   ChevronDown,
+  Send,
 } from "lucide-react";
 import {
   DropdownMenu,
