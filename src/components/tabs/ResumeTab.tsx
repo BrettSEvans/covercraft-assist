@@ -725,6 +725,7 @@ export function ResumeTab({
                 displayHtml={displayHtml}
                 isOlderVersion={!!previewResumeHtml}
                 companyName={companyName}
+                jobTitle={jobTitle}
                 userProfile={userProfile}
                 toast={toast}
               />
