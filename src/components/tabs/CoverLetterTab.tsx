@@ -10,7 +10,15 @@ import {
   Sparkles,
   RefreshCw,
   Download,
+  FileDown,
+  ChevronDown,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import CoverLetterRevisions from "@/components/CoverLetterRevisions";
 import InlineHtmlEditor from "@/components/InlineHtmlEditor";
 import { downloadTextAsDocx } from "@/lib/docxExport";
