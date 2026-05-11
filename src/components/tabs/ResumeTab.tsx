@@ -255,7 +255,7 @@ function ResumeVariantToolbar({
           onClick={onAskForChanges}
           disabled={disabled || !askPrompt.trim()}
           aria-label={isRefining ? "Applying changes" : "Send"}
-          className="h-9 w-9 rounded-full shadow-md disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none"
+          className="h-9 w-9 shrink-0 rounded-full shadow-md disabled:bg-muted disabled:text-muted-foreground disabled:opacity-100 disabled:shadow-none"
         >
           {isRefining ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
         </Button>
