@@ -184,7 +184,7 @@ function ResumeDownloadButton({
   };
 
   const downloadDocx = () => {
-    const name = buildFileName(userProfile?.first_name, userProfile?.last_name, `${variant}-resume`, companyName, "docx");
+    const name = buildFileName(userProfile?.first_name, userProfile?.last_name, `${variant}-resume`, companyName, "docx", jobTitle);
     downloadHtmlAsDocx(displayHtml, name);
     toast({ title: "Downloading", description: `${variantLabel} resume DOCX file is being prepared.` });
   };
