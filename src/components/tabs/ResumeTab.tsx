@@ -308,18 +308,9 @@ function ResumeVariantContent({
   return (
     <div className="space-y-4">
       <ResumeVariantToolbar
-        variant={variant}
-        variantLabel={variantLabel}
-        html={html}
-        displayHtml={previewHtml || html}
-        isOlderVersion={!!previewHtml}
-        companyName={companyName}
-        jobTitle={jobTitle}
-        userProfile={userProfile}
         isRegenerating={isRegenerating}
         onEdit={() => { setEditingResume(true); setPreviewResumeHtml(null); }}
         onRegenerate={() => openRegenDialog(variant)}
-        toast={toast}
       />
 
       {editingResume ? (
