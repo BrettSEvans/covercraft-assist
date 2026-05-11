@@ -49,17 +49,42 @@ export default function Profile() {
   const [masterCoverLetter, setMasterCoverLetter] = useState("");
   const [saving, setSaving] = useState(false);
   const [initialized, setInitialized] = useState(false);
+  const [baseline, setBaseline] = useState<string>("");
+
+  const currentSnapshot = JSON.stringify({
+    firstName,
+    lastName,
+    experience,
+    resumeText,
+    skills: [...skills].sort(),
+    industries: [...industries].sort(),
+    tone,
+    masterCoverLetter,
+  });
+  const isDirty = initialized && currentSnapshot !== baseline;
 
   // Initialize form from profile data
   if (profile && !initialized) {
-    setFirstName(profile.first_name ?? "");
-    setLastName(profile.last_name ?? "");
-    setExperience(profile.years_experience ?? "");
-    setResumeText(profile.resume_text ?? "");
-    setSkills(profile.key_skills ?? []);
-    setIndustries(profile.target_industries ?? []);
-    setTone(profile.preferred_tone ?? "professional");
-    setMasterCoverLetter(profile.master_cover_letter ?? "");
+    const fn = profile.first_name ?? "";
+    const ln = profile.last_name ?? "";
+    const exp = profile.years_experience ?? "";
+    const rt = profile.resume_text ?? "";
+    const sk = profile.key_skills ?? [];
+    const ind = profile.target_industries ?? [];
+    const tn = profile.preferred_tone ?? "professional";
+    const mcl = profile.master_cover_letter ?? "";
+    setFirstName(fn);
+    setLastName(ln);
+    setExperience(exp);
+    setResumeText(rt);
+    setSkills(sk);
+    setIndustries(ind);
+    setTone(tn);
+    setMasterCoverLetter(mcl);
+    setBaseline(JSON.stringify({
+      firstName: fn, lastName: ln, experience: exp, resumeText: rt,
+      skills: [...sk].sort(), industries: [...ind].sort(), tone: tn, masterCoverLetter: mcl,
+    }));
     setInitialized(true);
   }
 
