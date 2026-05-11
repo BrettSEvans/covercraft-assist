@@ -255,7 +255,7 @@ function ResumeVariantToolbar({
           disabled={!hasChatHistory}
           aria-label={chatVisible ? "Hide chat history" : "Show chat history"}
           title={hasChatHistory ? (chatVisible ? "Hide chat history" : "Show chat history") : "No chat history yet"}
-          className="h-9 w-9 shrink-0"
+          className="h-9 w-9 shrink-0 -mr-1"
         >
           {chatVisible ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
         </Button>
@@ -283,7 +283,7 @@ function ResumeVariantToolbar({
           {isRefining ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
         </Button>
       </div>
-      <div className="flex items-center gap-2 justify-self-end">
+      <div className="flex items-center gap-2 justify-self-end ml-2">
         <Button variant="outline" size="sm" onClick={onEdit} disabled={disabled}>
           <Edit3 className="mr-2 h-4 w-4" /> Edit
         </Button>
