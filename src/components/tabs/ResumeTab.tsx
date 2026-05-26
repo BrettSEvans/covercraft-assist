@@ -50,6 +50,7 @@ import InlineHtmlEditor from "@/components/InlineHtmlEditor";
 import { saveJobApplication } from "@/lib/api/jobApplication";
 import { generateOptimizedResume } from "@/lib/api/resumeGeneration";
 import { downloadHtmlAsDocx } from "@/lib/docxExport";
+import { downloadHtmlAsPdf } from "@/lib/pdfDownload";
 import { supabase } from "@/integrations/supabase/client";
 import type { JobApplication, UserResumePickerItem, FabricationChange, ToastFn } from "@/types/models";
 import type { ExtractedKeyword } from "@/lib/keywordMatcher";
@@ -224,29 +225,13 @@ function ResumeDownloadButton({
     }
   };
 
-  const downloadPdf = () => {
-    const iframe = document.createElement("iframe");
-    iframe.style.cssText = "position:fixed;right:0;bottom:0;width:0;height:0;border:none;";
-    document.body.appendChild(iframe);
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!doc) {
-      toast({ title: "Error", description: "Could not open print frame.", variant: "destructive" });
-      document.body.removeChild(iframe);
-      return;
+  const downloadPdf = async () => {
+    const name = buildFileName(userProfile?.first_name, userProfile?.last_name, `${variant}-resume`, companyName, "pdf", jobTitle);
+    try {
+      await downloadHtmlAsPdf(displayHtml, name);
+    } catch (err: any) {
+      toast({ title: "PDF error", description: err?.message ?? "Could not generate PDF.", variant: "destructive" });
     }
-    const printStyles = `<style>@page{size:letter;margin:0}@media print{html{margin:0 !important;padding:0 !important}body{margin:0 !important;padding:0.5in !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}}*{font-family:Arial,sans-serif!important;}body{font-size:11pt;}</style>`;
-    const sourceDoc = new DOMParser().parseFromString(displayHtml, "text/html");
-    const printDocument = `<!DOCTYPE html><html><head><meta charset="utf-8" /><title></title>${printStyles}${sourceDoc.head?.innerHTML || ""}</head><body>${sourceDoc.body?.innerHTML || displayHtml}</body></html>`;
-    doc.open();
-    doc.write(printDocument);
-    doc.close();
-    doc.title = "";
-    const triggerPrint = () => {
-      try { iframe.contentWindow?.print(); } catch (_) {}
-      setTimeout(() => { if (iframe.parentNode) document.body.removeChild(iframe); }, 1000);
-    };
-    iframe.onload = () => setTimeout(triggerPrint, 400);
-    setTimeout(triggerPrint, 1500);
   };
 
   const downloadDocx = () => {

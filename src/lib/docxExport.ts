@@ -1,5 +1,5 @@
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, LevelFormat } from "docx";
-import { saveAs } from "file-saver";
+import { triggerFileSave } from "@/lib/pdfDownload";
 
 /**
  * Parses simple HTML into docx Paragraph elements.
@@ -199,8 +199,14 @@ export async function downloadHtmlAsDocx(html: string, fileName: string) {
     ],
   });
 
-  const buffer = await Packer.toBlob(wordDoc);
-  saveAs(buffer, fileName.endsWith(".docx") ? fileName : `${fileName}.docx`);
+  const blob = await Packer.toBlob(wordDoc);
+  const safeName = fileName.endsWith(".docx") ? fileName : `${fileName}.docx`;
+  await triggerFileSave(blob, {
+    suggestedName: safeName,
+    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    extension: "docx",
+    description: "Word Document",
+  });
 }
 
 /**
@@ -240,6 +246,12 @@ export async function downloadTextAsDocx(text: string, fileName: string) {
     ],
   });
 
-  const buffer = await Packer.toBlob(wordDoc);
-  saveAs(buffer, fileName.endsWith(".docx") ? fileName : `${fileName}.docx`);
+  const blob = await Packer.toBlob(wordDoc);
+  const safeName = fileName.endsWith(".docx") ? fileName : `${fileName}.docx`;
+  await triggerFileSave(blob, {
+    suggestedName: safeName,
+    mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    extension: "docx",
+    description: "Word Document",
+  });
 }

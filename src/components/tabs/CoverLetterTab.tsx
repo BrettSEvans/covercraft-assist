@@ -27,6 +27,7 @@ import {
 import CoverLetterRevisions from "@/components/CoverLetterRevisions";
 import InlineHtmlEditor from "@/components/InlineHtmlEditor";
 import { downloadTextAsDocx } from "@/lib/docxExport";
+import { downloadHtmlAsPdf } from "@/lib/pdfDownload";
 import { buildFileName } from "@/lib/fileNaming";
 import VersionDownloadAlert from "@/components/VersionDownloadAlert";
 import type { JobApplication, UserProfileSnapshot, ChatMessage, ToastFn } from "@/types/models";
@@ -156,24 +157,20 @@ export function CoverLetterTab({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem
-                onSelect={() => guardedDownload(() => {
-                  const printWindow = window.open("", "_blank");
-                  if (!printWindow) {
-                    toast({ title: "Popup blocked", description: "Allow popups to download PDF, or use DOCX download instead.", variant: "destructive" });
-                    return;
-                  }
-                  const pdfTitle = buildFileName(userProfile?.first_name, userProfile?.last_name, "cover-letter", companyName, "pdf");
+                onSelect={() => guardedDownload(async () => {
                   const content = displayContent;
                   const htmlContent = isHtmlContent(content)
                     ? content
-                    : `<!DOCTYPE html><html><head><title>${pdfTitle}</title><style>
-                      @page { size: letter; margin: 0; }
-                      body { font-family: Roboto, Arial, sans-serif; font-size: 10.5pt; line-height: 1.6; color: #111; margin: 0; padding: 1in 1in 0.75in 1in; }
-                      .content { white-space: pre-wrap; }
-                    </style></head><body><div class="content">${content.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</div></body></html>`;
-                  printWindow.document.write(htmlContent);
-                  printWindow.document.close();
-                  printWindow.onload = () => { printWindow.print(); };
+                    : `<!DOCTYPE html><html><head><meta charset="utf-8"/><style>
+                        body { font-family: Georgia, serif; font-size: 10.5pt; line-height: 1.6; color: #111; margin: 0; padding: 1in 1in 0.75in 1in; }
+                        .content { white-space: pre-wrap; }
+                      </style></head><body><div class="content">${content.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}</div></body></html>`;
+                  const name = buildFileName(userProfile?.first_name, userProfile?.last_name, "cover-letter", companyName, "pdf");
+                  try {
+                    await downloadHtmlAsPdf(htmlContent, name);
+                  } catch (err: any) {
+                    toast({ title: "PDF error", description: err?.message ?? "Could not generate PDF.", variant: "destructive" });
+                  }
                 })}
               >
                 <FileDown className="mr-2 h-4 w-4" /> PDF
