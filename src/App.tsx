@@ -80,8 +80,6 @@ function AuthenticatedApp() {
   if (!profile?.onboarding_completed_at) {
     return (
       <Routes>
-        {/* Landing page is always accessible at / regardless of onboarding state */}
-        <Route path="/" element={<LandingPage />} />
         <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/stories" element={<StoryBoard />} />
         <Route path="*" element={<Navigate to="/onboarding" replace />} />
@@ -107,9 +105,8 @@ function AuthenticatedApp() {
       <HelpDrawer />
       <TutorialTour active={tour.active} onComplete={tour.complete} />
       <Routes>
-        {/* Landing page — always public, even for authenticated users */}
-        <Route path="/" element={<LandingPage />} />
-        {/* App dashboard */}
+        {/* Logged-in users hitting / go straight to the app */}
+        <Route path="/" element={<Navigate to="/applications" replace />} />
         <Route path="/applications" element={<Applications />} />
         <Route path="/applications/new" element={<NewApplication />} />
         <Route path="/applications/:id" element={<ApplicationDetail />} />
