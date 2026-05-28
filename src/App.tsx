@@ -146,6 +146,7 @@ function AuthenticatedApp() {
       {/* Bottom padding so content clears sticky footer on mobile */}
       <div className="h-14 md:hidden" />
       <CookieConsent />
+      <AdDebugIndicator />
     </>
   );
 }
