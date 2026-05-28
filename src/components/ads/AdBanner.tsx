@@ -50,7 +50,7 @@ const ADSENSE_CLIENT = "ca-pub-9524682161824217";
  * the grey wireframe box so layout stays intact during development.
  */
 const SLOT_IDS = {
-  "leaderboard":   "LEADERBOARD_SLOT_ID",   // TODO: paste slot ID
+  "leaderboard":   "4313261046",
   "mobile-banner": "MOBILE_BANNER_SLOT_ID", // TODO: paste slot ID
   "skyscraper":    "SKYSCRAPER_SLOT_ID",    // TODO: paste slot ID
   "sticky-footer": "STICKY_FOOTER_SLOT_ID", // TODO: paste slot ID
