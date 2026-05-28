@@ -200,7 +200,7 @@ export default function PrivacyRequest() {
       <PrivacyRequestForm defaultEmail={defaultEmail} defaultName={defaultName} />
       <p className="text-sm text-muted-foreground pt-4 border-t border-border">
         <strong>Email:</strong>{" "}
-        <a href="mailto:privacy@resuvibe.ai" className="underline hover:text-foreground">privacy@resuvibe.ai</a>
+        <a href="mailto:info@saasless.ai" className="underline hover:text-foreground">info@saasless.ai</a>
       </p>
     </div>
   );
