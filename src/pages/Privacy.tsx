@@ -409,7 +409,9 @@ function content() {
         </li>
       </UL>
       <P>
-        To exercise any of these rights, email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a>.
+        To exercise any of these rights, use our{" "}
+        <Link to="/privacy-request" className="underline hover:text-foreground">Privacy Request form</Link>{" "}
+        or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a>.
         We will respond within <strong>30 days</strong>. In exceptional circumstances we may extend this by a further 60 days and will notify you.
         We will not discriminate against you for exercising your rights.
       </P>
@@ -435,14 +437,18 @@ function content() {
         <li><strong>Right to non-discrimination</strong> — exercising your rights will not result in any denial of service, different prices, or diminished quality.</li>
       </UL>
       <P>
-        To submit a verifiable consumer request, email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a> from the email address associated with your account.
+        To submit a verifiable consumer request, use our{" "}
+        <Link to="/privacy-request" className="underline hover:text-foreground">Privacy Request form</Link>{" "}
+        or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a> from the email address associated with your account.
         We will respond within <strong>45 days</strong>, with one 45-day extension if necessary.
       </P>
 
       <H3>Rights under PIPEDA (Canada)</H3>
       <P>
         If you are a Canadian resident, you have the right to access the personal information we hold about you and to challenge its accuracy.
-        To make a request, email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a>.
+        To make a request, use our{" "}
+        <Link to="/privacy-request" className="underline hover:text-foreground">Privacy Request form</Link>{" "}
+        or email <a href={`mailto:${CONTACT_EMAIL}`} className="underline hover:text-foreground">{CONTACT_EMAIL}</a>.
         If you are not satisfied with our response you may contact the{" "}
         <a href="https://www.priv.gc.ca" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
           Office of the Privacy Commissioner of Canada
@@ -471,6 +477,10 @@ function content() {
       <H2 id="contact">13. Contact</H2>
       <P>
         For all privacy-related enquiries, data subject access requests, or complaints:
+      </P>
+      <P>
+        <strong>Privacy Request form (preferred):</strong>{" "}
+        <Link to="/privacy-request" className="underline hover:text-foreground">resuvibe.ai/privacy-request</Link>
       </P>
       <P>
         <strong>Email:</strong>{" "}

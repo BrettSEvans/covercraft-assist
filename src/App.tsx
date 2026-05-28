@@ -23,6 +23,7 @@ import About from "./pages/About";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
 import Contact from "./pages/Contact";
+import PrivacyRequest from "./pages/PrivacyRequest";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import BackgroundJobsBanner from "./components/BackgroundJobsBanner";
@@ -78,6 +79,7 @@ function AuthenticatedApp() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/about" element={<About />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/privacy-request" element={<PrivacyRequest />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<Contact />} />
         {/* Any other path sends unauthenticated visitors to the landing page */}
@@ -130,6 +132,7 @@ function AuthenticatedApp() {
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/about" element={<About />} />
         <Route path="/privacy" element={<Privacy />} />
+        <Route path="/privacy-request" element={<PrivacyRequest />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
