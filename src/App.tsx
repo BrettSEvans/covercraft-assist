@@ -19,6 +19,10 @@ import Login from "./pages/Login";
 import LandingPage from "./pages/LandingPage";
 import ResetPassword from "./pages/ResetPassword";
 import Admin from "./pages/Admin";
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Contact from "./pages/Contact";
 import Onboarding from "./pages/Onboarding";
 import NotFound from "./pages/NotFound";
 import BackgroundJobsBanner from "./components/BackgroundJobsBanner";
@@ -71,6 +75,10 @@ function AuthenticatedApp() {
         <Route path="/login" element={<Login defaultTab="login" />} />
         <Route path="/signup" element={<Login defaultTab="signup" />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/contact" element={<Contact />} />
         {/* Any other path sends unauthenticated visitors to the landing page */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
@@ -119,6 +127,10 @@ function AuthenticatedApp() {
         <Route path="/login" element={<Navigate to="/applications" replace />} />
         <Route path="/signup" element={<Navigate to="/applications" replace />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
