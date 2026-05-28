@@ -34,6 +34,7 @@ import { TutorialTour, useTourState } from "./components/TutorialTour";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "@/hooks/useTheme";
 import { AdBanner } from "./components/ads/AdBanner";
+import { AdDebugIndicator } from "./components/ads/AdDebugIndicator";
 import { CookieConsent } from "./components/CookieConsent";
 
 const queryClient = new QueryClient();
