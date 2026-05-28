@@ -1128,10 +1128,10 @@ export default function LandingPage() {
           <div className="lp-footer-row">
             <Link to="/" className="lp-footer-logo">resu<em>vibe</em></Link>
             <nav className="lp-footer-links" aria-label="Footer navigation">
-              <a href="/about"   className="lp-footer-link">About</a>
-              <a href="/privacy" className="lp-footer-link">Privacy</a>
-              <a href="/terms"   className="lp-footer-link">Terms</a>
-              <a href="/contact" className="lp-footer-link">Contact</a>
+              <Link to="/about"   className="lp-footer-link">About</Link>
+              <Link to="/privacy" className="lp-footer-link">Privacy</Link>
+              <Link to="/terms"   className="lp-footer-link">Terms</Link>
+              <Link to="/contact" className="lp-footer-link">Contact</Link>
             </nav>
           </div>
           <div className="lp-footer-divider" role="separator"></div>
