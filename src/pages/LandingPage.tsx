@@ -14,6 +14,7 @@
  */
 
 import { Link } from "react-router-dom";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function LandingPage() {
   return (
