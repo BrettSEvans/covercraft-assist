@@ -127,6 +127,10 @@ function AuthenticatedApp() {
         <Route path="/login" element={<Navigate to="/applications" replace />} />
         <Route path="/signup" element={<Navigate to="/applications" replace />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
 
