@@ -65,7 +65,10 @@ function SingleUserApp() {
         <Route path="/applications/new" element={<SingleUserAppShell><SingleUserNewApplication /></SingleUserAppShell>} />
         <Route path="/applications/session" element={<SingleUserAppShell><SingleUserSessionResult /></SingleUserAppShell>} />
         <Route path="/applications/demo" element={<SingleUserAppShell><SingleUserDemoApplication /></SingleUserAppShell>} />
+        <Route path="/applications/:id" element={<SingleUserAppShell><ApplicationDetail /></SingleUserAppShell>} />
+        <Route path="/applications/:id/:tab" element={<SingleUserAppShell><ApplicationDetail /></SingleUserAppShell>} />
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Routes>
       <CookieConsent />
       <AdDebugIndicator />
