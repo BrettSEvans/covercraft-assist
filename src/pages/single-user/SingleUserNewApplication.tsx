@@ -88,10 +88,42 @@ export default function SingleUserNewApplication() {
   const [resumeText, setResumeText] = useState("");
   const [coverLetterText, setCoverLetterText] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [jobUrl, setJobUrl] = useState("");
+  const [scraping, setScraping] = useState(false);
 
   const updateMaterial = (kind: MaterialKind, text: string) => {
     if (kind === "resume") setResumeText(text);
     else setCoverLetterText(text);
+  };
+
+  const handleFetchJobUrl = async () => {
+    const url = jobUrl.trim();
+    if (!url) return;
+    setScraping(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-job-public", {
+        body: { url },
+      });
+      if (error) throw error;
+      if (!data?.success) {
+        throw new Error(
+          data?.blocked
+            ? "This site blocks automated scraping. Paste the description instead."
+            : data?.error || "Could not fetch this job listing.",
+        );
+      }
+      setJobDescription(data.markdown || "");
+      if (!jobTitle && data.title) setJobTitle(String(data.title));
+      toast({ title: "Job listing imported", description: "Review the description below." });
+    } catch (err) {
+      toast({
+        title: "Couldn't fetch listing",
+        description: err instanceof Error ? err.message : "Paste the description instead.",
+        variant: "destructive",
+      });
+    } finally {
+      setScraping(false);
+    }
   };
 
   const canGenerate = jobDescription.trim().length > 0 && resumeText.trim().length > 0 && !generating;
