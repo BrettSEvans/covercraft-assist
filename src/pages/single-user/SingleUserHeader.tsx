@@ -1,23 +1,49 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { FilePlus2, RefreshCw } from "lucide-react";
 import BrandLogo from "@/components/BrandLogo";
 import { Button } from "@/components/ui/button";
 import { clearSingleUserSessionResult } from "@/lib/singleUserSession";
+import { cn } from "@/lib/utils";
 
 export default function SingleUserHeader() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const resetSession = () => {
     clearSingleUserSessionResult();
     navigate("/applications/new");
   };
 
+  const links = [
+    { to: "/applications", label: "Applications", match: (p: string) => p === "/applications" || p.startsWith("/applications/") },
+  ];
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-6xl mx-auto flex h-14 items-center justify-between px-4 md:px-8">
-        <button onClick={() => navigate("/applications/new")} className="focus:outline-none">
-          <BrandLogo iconSize="2.2em" />
-        </button>
+        <div className="flex items-center gap-6">
+          <button onClick={() => navigate("/applications/new")} className="focus:outline-none">
+            <BrandLogo iconSize="2.2em" />
+          </button>
+
+          <nav className="hidden md:flex items-center gap-1">
+            {links.map((l) => (
+              <button
+                key={l.to}
+                onClick={() => navigate(l.to)}
+                className={cn(
+                  "px-3 py-1.5 rounded-md text-sm font-medium transition-colors font-body",
+                  l.match(pathname)
+                    ? "bg-primary/10 text-primary"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/10"
+                )}
+              >
+                {l.label}
+              </button>
+            ))}
+          </nav>
+        </div>
+
         <div className="flex items-center gap-2">
           <Button size="sm" onClick={() => navigate("/applications/new")}>
             <FilePlus2 className="mr-2 h-4 w-4" />
