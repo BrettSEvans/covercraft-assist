@@ -4,6 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Loader2 } from "lucide-react";
+import { PageShell } from "@/components/PageShell";
+import { AdBanner } from "@/components/ads/AdBanner";
 
 type AppRow = {
   id: string;
