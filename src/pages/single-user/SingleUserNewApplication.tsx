@@ -1,15 +1,17 @@
 import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AlertCircle, BriefcaseBusiness, FileText, Loader2, Upload } from "lucide-react";
+import { AlertCircle, BriefcaseBusiness, FileText, Loader2, Upload, Link2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
 import { generateSingleUserApplication } from "@/lib/singleUserGeneration";
 import { setSingleUserSessionResult } from "@/lib/singleUserSession";
 import { extractSourceMaterialText } from "@/lib/sourceMaterialExtraction";
+import { supabase } from "@/integrations/supabase/client";
 
 type MaterialKind = "resume" | "coverLetter";
 
@@ -86,10 +88,42 @@ export default function SingleUserNewApplication() {
   const [resumeText, setResumeText] = useState("");
   const [coverLetterText, setCoverLetterText] = useState("");
   const [generating, setGenerating] = useState(false);
+  const [jobUrl, setJobUrl] = useState("");
+  const [scraping, setScraping] = useState(false);
 
   const updateMaterial = (kind: MaterialKind, text: string) => {
     if (kind === "resume") setResumeText(text);
     else setCoverLetterText(text);
+  };
+
+  const handleFetchJobUrl = async () => {
+    const url = jobUrl.trim();
+    if (!url) return;
+    setScraping(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("scrape-job-public", {
+        body: { url },
+      });
+      if (error) throw error;
+      if (!data?.success) {
+        throw new Error(
+          data?.blocked
+            ? "This site blocks automated scraping. Paste the description instead."
+            : data?.error || "Could not fetch this job listing.",
+        );
+      }
+      setJobDescription(data.markdown || "");
+      if (!jobTitle && data.title) setJobTitle(String(data.title));
+      toast({ title: "Job listing imported", description: "Review the description below." });
+    } catch (err) {
+      toast({
+        title: "Couldn't fetch listing",
+        description: err instanceof Error ? err.message : "Paste the description instead.",
+        variant: "destructive",
+      });
+    } finally {
+      setScraping(false);
+    }
   };
 
   const canGenerate = jobDescription.trim().length > 0 && resumeText.trim().length > 0 && !generating;
@@ -154,14 +188,59 @@ export default function SingleUserNewApplication() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="job-description">Job Description</Label>
-              <Textarea
-                id="job-description"
-                placeholder="Paste the full job description here..."
-                rows={10}
-                value={jobDescription}
-                onChange={(event) => setJobDescription(event.target.value)}
-              />
+              <Label>Job Description</Label>
+              <Tabs defaultValue="url" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="url">
+                    <Link2 className="mr-2 h-4 w-4" />
+                    From URL
+                  </TabsTrigger>
+                  <TabsTrigger value="paste">
+                    <FileText className="mr-2 h-4 w-4" />
+                    Paste Text
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="url" className="space-y-3 pt-3">
+                  <div className="flex gap-2">
+                    <Input
+                      type="url"
+                      placeholder="https://company.com/jobs/123"
+                      value={jobUrl}
+                      onChange={(event) => setJobUrl(event.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          void handleFetchJobUrl();
+                        }
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleFetchJobUrl}
+                      disabled={!jobUrl.trim() || scraping}
+                    >
+                      {scraping ? <Loader2 className="h-4 w-4 animate-spin" /> : "Fetch"}
+                    </Button>
+                  </div>
+                  {jobDescription && (
+                    <Textarea
+                      id="job-description-url"
+                      rows={8}
+                      value={jobDescription}
+                      onChange={(event) => setJobDescription(event.target.value)}
+                    />
+                  )}
+                </TabsContent>
+                <TabsContent value="paste" className="pt-3">
+                  <Textarea
+                    id="job-description"
+                    placeholder="Paste the full job description here..."
+                    rows={10}
+                    value={jobDescription}
+                    onChange={(event) => setJobDescription(event.target.value)}
+                  />
+                </TabsContent>
+              </Tabs>
             </div>
           </CardContent>
         </Card>
