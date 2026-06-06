@@ -188,14 +188,59 @@ export default function SingleUserNewApplication() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="job-description">Job Description</Label>
-              <Textarea
-                id="job-description"
-                placeholder="Paste the full job description here..."
-                rows={10}
-                value={jobDescription}
-                onChange={(event) => setJobDescription(event.target.value)}
-              />
+              <Label>Job Description</Label>
+              <Tabs defaultValue="url" className="w-full">
+                <TabsList className="grid w-full grid-cols-2">
+                  <TabsTrigger value="url">
+                    <Link2 className="mr-2 h-4 w-4" />
+                    From URL
+                  </TabsTrigger>
+                  <TabsTrigger value="paste">
+                    <FileText className="mr-2 h-4 w-4" />
+                    Paste Text
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="url" className="space-y-3 pt-3">
+                  <div className="flex gap-2">
+                    <Input
+                      type="url"
+                      placeholder="https://company.com/jobs/123"
+                      value={jobUrl}
+                      onChange={(event) => setJobUrl(event.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          void handleFetchJobUrl();
+                        }
+                      }}
+                    />
+                    <Button
+                      type="button"
+                      onClick={handleFetchJobUrl}
+                      disabled={!jobUrl.trim() || scraping}
+                    >
+                      {scraping ? <Loader2 className="h-4 w-4 animate-spin" /> : "Fetch"}
+                    </Button>
+                  </div>
+                  {jobDescription && (
+                    <Textarea
+                      id="job-description-url"
+                      rows={8}
+                      value={jobDescription}
+                      onChange={(event) => setJobDescription(event.target.value)}
+                    />
+                  )}
+                </TabsContent>
+                <TabsContent value="paste" className="pt-3">
+                  <Textarea
+                    id="job-description"
+                    placeholder="Paste the full job description here..."
+                    rows={10}
+                    value={jobDescription}
+                    onChange={(event) => setJobDescription(event.target.value)}
+                  />
+                </TabsContent>
+              </Tabs>
             </div>
           </CardContent>
         </Card>
